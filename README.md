@@ -1,2 +1,37 @@
-# site-api-key-drupal-axelerant
-Add 'Site API Key' into 'Site Information' section
+## A custom Drupal 7 module to accept Site API Key and to show JSON representation of a node with content type 'page'
+
+
+#### Background Information
+
+When logged in as the administrator, the "Site Information" form can be found at the path /admin/config/system/site-information.
+
+#### Requirements
+
+This module needs to alter the existing Drupal "Site Information" form. Specifics:
+
+* A new form text field named "Site API Key" needs to be added to the "Site Information" form with the default value of “No API Key yet”.
+* When this form is submitted, the value that the user entered for this field should be saved as the system variable named "siteapikey".
+* A Drupal message should inform the user that the Site API Key has been saved with that value.
+* When this form is visited after the "Site API Key" is saved, the field should be populated with the correct value.
+* The text of the "Save configuration" button should change to "Update Configuration".
+* This module also provides a URL that responds with a JSON representation of a given node with the content type "page" only if the previously submitted API Key and a node id (nid) of an appropriate node are present, otherwise it will respond with "access denied".
+
+#### Example URL
+
+http://localhost/page_json/FOOBAR12345/17
+
+#### Test Evaluation
+
+* Meeting above requirements
+* Utilising Drupal-specific solutions (hooks, form alter, etc.))
+* Readability of code
+* Clear, concise commenting
+* List of resources used : previous knowledge of D7
+* Total time to complete task = 1 hour
+
+-----------------------------------------------------------
+### Steps tp convert this Drupal 7 module to Drupal 8 module
+
+* Convert .info file to .info.yml file
+* Convert hook_menu() and forms
+* Create .routing.yml file instead of .module file
