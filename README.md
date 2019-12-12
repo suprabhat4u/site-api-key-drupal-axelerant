@@ -29,9 +29,9 @@ http://localhost/page_json/FOOBAR12345/17
 * List of resources used : previous knowledge of D7
 * Total time to complete task = 1 hour
 
------------------------------------------------------------
-### Steps tp convert this Drupal 7 module to Drupal 8 module
+------------------------------------------------------------
+### Steps to convert this Drupal 7 module to Drupal 8 module
 
 * Convert .info file to .info.yml file
-* Convert hook_menu() and forms
 * Create .routing.yml file instead of .module file
+* Convert hook_menu() and hook_form_alter() accordingly
