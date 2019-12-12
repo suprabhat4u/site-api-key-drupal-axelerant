@@ -1,0 +1,70 @@
+<?php
+
+/**
+ * Implements hook_form_alter().
+ *
+ * @param array $form
+ * @param array $form_state
+ * @param string $form_id
+ *
+ */
+function site_api_key_config_form_alter(&$form, &$form_state, $form_id) {
+    if(isset($form_id) && ($form_id == 'system_site_information_settings')) { // For System Site-Information Form
+        $form['site_information']['siteapikey'] = array(
+            '#type' => 'textfield',
+            '#title' => 'Site API Key',
+            '#default_value' => variable_get('siteapikey', 'No API Key yet'),
+            '#description' => 'The Site API Key to show JSON representation of a node with the content type "page" only.'
+        );
+        $form['actions']['submit']['#value'] = 'Update Configuration'; // Change the 'submit' button value
+        if (variable_get('siteapikey') != $form_state['input']['siteapikey']) { // Site API Key saved message will be displayed only for updated value of API Key
+            $form['#submit'][] = 'site_api_key_submit';
+        }
+    }
+}
+
+/**
+ *  Submit handler to show API Key saving message.
+ */
+function site_api_key_submit($form, &$form_state) {
+    drupal_set_message('The Site API Key has been saved with the value \''.variable_get('siteapikey').'\'.');
+}
+
+/**
+ *  Implements hook_menu().
+ */
+function site_api_key_config_menu() {
+    $items = array();
+    $items['page_json/%/%'] = array( // arg(1) = API Key, arg(2) = nid
+        'title' => t('JSON Representation of a Node'),
+        'page callback' => 'json_representation_of_node',
+        'page arguments' => array(2),
+        'access callback' => 'has_api_key_access',
+        'access arguments' => array(1, 2)
+    );
+    return $items;
+}
+
+/**
+ *  Access callback function.
+ */
+function has_api_key_access($key, $nid) {
+    if ($key == variable_get('siteapikey')) { // If Site API Key matches
+        $node = node_load($nid);
+        if ($node->type == 'page') { // If content type of the node is 'page' only
+            return true;
+        }
+        return false;
+    }
+    return false;
+}
+
+/**
+ *  Page callback function.
+ */
+function json_representation_of_node($nid) {
+    $node = node_load($nid);
+    drupal_json_output($node);
+}
+
+?>

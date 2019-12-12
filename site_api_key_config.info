@@ -1,0 +1,4 @@
+name = Site API Key Configuration
+description = Add 'Site API Key' field in 'Site Information' form.
+core = 7.x
+package = "Site API Key"
